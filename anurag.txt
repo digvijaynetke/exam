@@ -1,0 +1,273 @@
+1.Linear
+import java.util.*;
+public class LinearSearch{
+public static int linear_search(int numbers[],int key)
+for(int i=0;i<=numbers.length;i++) {
+if(numbers[i]==key){
+return i;
+}
+} 
+return -1;
+}
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+int numbers[]={2,4,3,7,8,9,10,12,15,20};
+System.out.println("Enter a key= ");
+int key = sc.nextInt();
+int index=linear_search(numbers, key);
+if(index==-1){
+System.out.println("key not found");
+}else{
+System.out.println("the key is found at index= "+index);
+} sc.close()
+}}
+
+/////////////////////////////////////////////////
+
+1.Binary
+import java.util.*;
+
+public class BinarySearch {
+public static int binary_search(int numbers[], int key) {
+int start = 0, end = numbers.length - 1;
+while (start <= end) {
+int mid = (start + end) / 2;
+if (numbers[mid] == key) return mid;
+if (numbers[mid] < key) start = mid + 1;
+else end = mid - 1;
+}
+return -1;
+}
+
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter the number of elements in the sorted array: ");
+int n = sc.nextInt();
+int[] numbers = new int[n];
+System.out.println("Enter the elements of the sorted array:");
+for (int i = 0; i < n; i++) numbers[i] = sc.nextInt();
+System.out.print("Enter the number to search for: ");
+int key = sc.nextInt();
+int result = binary_search(numbers, key);
+if (result == -1) System.out.println("The number " + key + " is not in the array.");
+else System.out.println("The number " + key + " is found at index: " + result);
+sc.close();
+}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+2.Merge
+import java.util.Scanner;
+
+class GfG {
+
+static void merge(int arr[], int l, int m, int r) {
+int n1 = m - l + 1;
+int n2 = r - m;
+int L[] = new int[n1];
+int R[] = new int[n2];
+
+for (int i = 0; i < n1; ++i) {
+L[i] = arr[l + i];
+}
+for (int j = 0; j < n2; ++j) {
+R[j] = arr[m + 1 + j];
+}
+
+int i = 0, j = 0, k = l;
+while (i < n1 && j < n2) {
+if (L[i] <= R[j]) {
+arr[k++] = L[i++];
+} else {
+arr[k++] = R[j++];
+}
+}
+
+while (i < n1) {
+arr[k++] = L[i++];
+}
+while (j < n2) {
+arr[k++] = R[j++];
+}
+}
+
+static void sort(int arr[], int l, int r) {
+if (l < r) {
+int m = l + (r - l) / 2;
+sort(arr, l, m);
+sort(arr, m + 1, r);
+merge(arr, l, m, r);
+}
+}
+
+static void printArray(int arr[]) {
+for (int i = 0; i < arr.length; ++i) {
+System.out.print(arr[i] + " ");
+}
+System.out.println();
+}
+
+public static void main(String args[]) {
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter the number of elements: ");
+int n = sc.nextInt();
+int arr[] = new int[n];
+System.out.println("Enter the elements:");
+for (int i = 0; i < n; i++) {
+arr[i] = sc.nextInt();
+}
+System.out.println("Given array is:");
+printArray(arr);
+sort(arr, 0, arr.length - 1);
+System.out.println("Sorted array is:");
+printArray(arr);
+sc.close();
+}
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+3.Heap
+import java.util.Scanner;
+
+class GfG {
+
+static void heapify(int arr[], int n, int i) {
+int largest = i;
+int l = 2 * i + 1;
+int r = 2 * i + 2;
+
+if (l < n && arr[l] > arr[largest]) {
+largest = l;
+}
+
+if (r < n && arr[r] > arr[largest]) {
+largest = r;
+}
+
+if (largest != i) {
+int temp = arr[i];
+arr[i] = arr[largest];
+arr[largest] = temp;
+heapify(arr, n, largest);
+}
+}
+
+static void heapSort(int arr[]) {
+int n = arr.length;
+
+for (int i = n / 2 - 1; i >= 0; i--) {
+heapify(arr, n, i);
+}
+
+for (int i = n - 1; i > 0; i--) {
+int temp = arr[0];
+arr[0] = arr[i];
+arr[i] = temp;
+heapify(arr, i, 0);
+}
+}
+
+static void printArray(int arr[]) {
+for (int i = 0; i < arr.length; i++) {
+System.out.print(arr[i] + " ");
+}
+System.out.println();
+}
+
+public static void main(String args[]) {
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter the number of elements: ");
+int n = sc.nextInt();
+int arr[] = new int[n];
+System.out.println("Enter the elements:");
+for (int i = 0; i < n; i++) {
+arr[i] = sc.nextInt();
+}
+heapSort(arr);
+System.out.println("Sorted array is:");
+printArray(arr);
+sc.close();
+}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+4.Prims
+import java.util.*;
+
+class Pair {
+int v;
+int wt;
+Pair(int v, int wt) {
+this.v = v;
+this.wt = wt;
+}
+}
+
+class GFG {
+static int spanningTree(int V, int E, int edges[][]) {
+ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+for (int i = 0; i < V; i++) {
+adj.add(new ArrayList<Pair>());
+}
+for (int i = 0; i < edges.length; i++) {
+int u = edges[i][0];
+int v = edges[i][1];
+int wt = edges[i][2];
+adj.get(u).add(new Pair(v, wt));
+adj.get(v).add(new Pair(u, wt));
+}
+PriorityQueue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>() {
+public int compare(Pair a, Pair b) {
+return a.wt - b.wt;
+}
+});
+pq.add(new Pair(0, 0));
+int[] vis = new int[V];
+int s = 0;
+while (!pq.isEmpty()) {
+Pair node = pq.poll();
+int v = node.v;
+int wt = node.wt;
+if (vis[v] == 1) continue;
+s += wt;
+vis[v] = 1;
+for (Pair it : adj.get(v)) {
+if (vis[it.v] == 0) {
+pq.add(new Pair(it.v, it.wt));
+}
+}
+}
+return s;
+}
+
+public static void main(String[] args) {
+int graph[][] = new int[][] {{0, 1, 5}, {1, 2, 3}, {0, 2, 1}};
+System.out.println(spanningTree(3, 3, graph));
+}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+5.Kruskals
+
+package linearSearch;
+
+import java.util.*;
+
+public class KruskalAlgorithm {
+
+static class Edge {
+int src, dest, weight;
+Edge(int src, int dest, int weight) {
+this.src = src;
+this.dest = dest;
+this.weight = weight;
+}
+}
+
+static class DisjointSet {
+int[] parent, rank;
+
+DisjointSet(int n) {
+parent = new int[n];
+rank = new int[n];
+for (int i = 0; i < n; i++) {
+parent[i] = i;
+rank[i] = 0;
+}
+}
